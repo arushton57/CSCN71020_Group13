@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <math.h>
 #include "PolygonChecker.h"
-#define RADIAN_DEGREES 57.2958
-#define TOTALDEGREES 180
-
 
 void main()
 {
@@ -15,64 +9,70 @@ void main()
 	PrintFunctions();
 }
 
-// Is a looping function
+bool stopMenu = false;
+
 void PrintFunctions()
 {
-	printf("To choose a function, enter its letter label:\na) Check triangle\nb) Check rectangle\nc) Quit\n");
-
-	// Takes in char inputs a, b, and c
-	char input = '.';
-	while (input != 'a' && input != 'b' && input != 'c')
+	// Loops until quit is executed
+	while (!stopMenu)
 	{
-		scanf_s(" %c", &input, 1);
-		// If multiple values are ever entered, the buffer is cleared to prevent variables from inappropriately outputting
-		while (getchar() != '\n'); 
-		// Warn the user if a bad input is entered
-		if (input != 'a' && input != 'b' && input != 'c')
-			printf("Inappropriate input!\n");
-	}
+		printf("To choose a function, enter its letter label:\na) Check triangle\nb) Check rectangle\nc) Quit\n");
 
-	// Once a true input has been typed, execute it
-	switch (input)
-	{
-	case 'a':
-		printf("\nTriangle selected.\n");
+		// Takes in char inputs a, b, and c
+		char input = '.';
+		while (input != 'a' && input != 'b' && input != 'c')
+		{
+			scanf_s(" %c", &input, 1);
+			// If multiple values are ever entered, the buffer is cleared to prevent variables from inappropriately outputting
+			while (getchar() != '\n');
+			// Warn the user if a bad input is entered
+			if (input != 'a' && input != 'b' && input != 'c')
+				printf("Inappropriate input!\n");
+		}
 
-		// Primatively collected variables. When using loops, I got an index-out-of-range error from index 11 and 15?
-		int triangleSides[3] = { 0, 0, 0 };
-		printf("Enter the first side of the triangle: ");
-		scanf_s("%d", &triangleSides[0]);
-		printf("Enter the second side of the triangle: ");
-		scanf_s("%d", &triangleSides[1]);
-		printf("Enter the third side of the triangle: ");
-		scanf_s("%d", &triangleSides[2]);
+		// Once a true input has been typed, execute it
+		switch (input)
+		{
+		case 'a':
+			printf("\nTriangle selected.\n");
 
-		// Executes the values typed to check what kind of triangle it is
-		TriangleChecker(triangleSides[0], triangleSides[1], triangleSides[2]);
+			// Primatively collected variables. When using loops, I got an index-out-of-range error from index 11 and 15?
+			int triangleSides[3] = { 0, 0, 0 };
+			printf("Enter the first side of the triangle: ");
+			scanf_s("%d", &triangleSides[0]);
+			printf("Enter the second side of the triangle: ");
+			scanf_s("%d", &triangleSides[1]);
+			printf("Enter the third side of the triangle: ");
+			scanf_s("%d", &triangleSides[2]);
 
-		break;
+			// Executes the values typed to check what kind of triangle it is
+			TriangleChecker(triangleSides[0], triangleSides[1], triangleSides[2]);
 
-	case 'b':
-		printf("\nRectangle selected.\n");
+			break;
 
-		int rectangleSides[4] = { 0, 0, 0, 0 };
-		printf("Enter the first side of the rectangle: ");
-		scanf_s("%d", &rectangleSides[0]);
-		printf("Enter the second side of the rectangle: ");
-		scanf_s("%d", &rectangleSides[1]);
-		printf("Enter the third side of the rectangle: ");
-		scanf_s("%d", &rectangleSides[2]);
-		printf("Enter the fourth side of the rectangle: ");
-		scanf_s("%d", &rectangleSides[3]);
+		case 'b':
+			printf("\nRectangle selected.\n");
 
-		// Executes the values typed to check if the rectangle lines intersect
-		RectangleChecker(rectangleSides[0], rectangleSides[1], rectangleSides[2], rectangleSides[3]);
+			int rectangleSides[4] = { 0, 0, 0, 0 };
+			printf("Enter the first side of the rectangle: ");
+			scanf_s("%d", &rectangleSides[0]);
+			printf("Enter the second side of the rectangle: ");
+			scanf_s("%d", &rectangleSides[1]);
+			printf("Enter the third side of the rectangle: ");
+			scanf_s("%d", &rectangleSides[2]);
+			printf("Enter the fourth side of the rectangle: ");
+			scanf_s("%d", &rectangleSides[3]);
 
-		break;
+			// Executes the values typed to check if the rectangle lines intersect
+			RectangleChecker(rectangleSides[0], rectangleSides[1], rectangleSides[2], rectangleSides[3]);
 
-	case 'c':
-		// This is self explanitory.
-		printf("\nQuit selected. Exiting program...\n");
+			break;
+
+		case 'c':
+			// This is self explanitory.
+			stopMenu = true;
+			printf("\nQuit selected. Exiting program...\n");
+		}
 	}
 }
 
@@ -87,33 +87,43 @@ void TriangleChecker(int side1, int side2, int side3)
 		result = "Not a triangle";
 	}
 	else if (side1 == side2 && side1 == side3) {
-		result = "Equilateral triangle";
+		result = "equilateral triangle";
 	}
 	else if ((side1 == side2 && side1 != side3) || (side1 == side3 && side1 != side2)) {
-		result = "Isosceles triangle";
+		result = "isosceles triangle";
 	}
 	else {
-		result = "Scalene triangle";
+		result = "scalene triangle";
 	}
-	triangleAngle(side1, side2, side3);
-	// Print the result, and start the program again
-	printf_s("%s\n\n", result);
-	PrintFunctions();
+
+	if (result != "Not a triangle")
+	{
+		printf("The angles of the %s are: ", result);
+		TriangleAngle(side1, side2, side3);
+	}
+	else
+	{
+		printf("%s", result);
+	}
+
+	printf("\n\n");
+}
+
+void TriangleAngle(int side1, int side2, int side3)
+{
+	double angle1, angle2, angle3;
+
+	// Angle formula using radians. Angle returned in radians due to acos. 1 radian is default to: 57.2958
+	angle1 = RADIAN_DEGREES * acos((double)((side2 * side2) + (side3 * side3) - (side1 * side1)) / (2.0 * side2 * side3));
+	angle2 = RADIAN_DEGREES * acos((double)((side3 * side3) + (side1 * side1) - (side2 * side2)) / (2.0 * side1 * side3));
+
+	// 3rd angle found using total degrees
+	angle3 = TOTALDEGREES - (angle1 + angle2);
+
+	printf("%f, %f, and %f", angle1, angle2, angle3);
 }
 
 void RectangleChecker(int side1, int side2, int side3, int side4)
 {
-
-	PrintFunctions();
-}
-
-void triangleAngle(int side1, int side2, int side3)
-{
-	double angle1, angle2, angle3;
-	//angle returned in radians due to acos
-	//1 radian = 57.2958
-	angle1 = RADIAN_DEGREES * acos((double)(side2 * side2 + side3 * side3 - side1 * side1) / (2.0 * side2 * side3));//angle formula using radians
-	angle2 = RADIAN_DEGREES * acos((double)(side3 * side3 + side1 * side1 - side2 * side2) / (2.0 * side1 * side3));
-	//3rd angle found using total degrees
-	angle3 = TOTALDEGREES - (angle1 + angle2);
+	printf("Output here\n\n");
 }
