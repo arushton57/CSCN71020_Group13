@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 #include "PolygonChecker.h"
+#define RADIAN_DEGREES 57.2958
+#define TOTALDEGREES 180
+
 
 void main()
 {
@@ -91,7 +95,7 @@ void TriangleChecker(int side1, int side2, int side3)
 	else {
 		result = "Scalene triangle";
 	}
-
+	triangleAngle(side1, side2, side3);
 	// Print the result, and start the program again
 	printf_s("%s\n\n", result);
 	PrintFunctions();
@@ -101,4 +105,15 @@ void RectangleChecker(int side1, int side2, int side3, int side4)
 {
 
 	PrintFunctions();
+}
+
+void triangleAngle(int side1, int side2, int side3)
+{
+	double angle1, angle2, angle3;
+	//angle returned in radians due to acos
+	//1 radian = 57.2958
+	angle1 = RADIAN_DEGREES * acos((double)(side2 * side2 + side3 * side3 - side1 * side1) / (2.0 * side2 * side3));//angle formula using radians
+	angle2 = RADIAN_DEGREES * acos((double)(side3 * side3 + side1 * side1 - side2 * side2) / (2.0 * side1 * side3));
+	//3rd angle found using total degrees
+	angle3 = TOTALDEGREES - (angle1 + angle2);
 }
