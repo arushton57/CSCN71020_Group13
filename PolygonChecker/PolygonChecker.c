@@ -4,6 +4,7 @@
 #include "PolygonChecker.h"
 #define RADIAN_DEGREES 57.2958
 #define TOTALDEGREES 180
+int rectangleSides[8];
 
 
 void main()
@@ -17,7 +18,7 @@ void main()
 
 // Is a looping function
 void PrintFunctions()
-{
+{  
 	printf("To choose a function, enter its letter label:\na) Check triangle\nb) Check rectangle\nc) Quit\n");
 
 	// Takes in char inputs a, b, and c
@@ -65,8 +66,52 @@ void PrintFunctions()
 		printf("Enter the fourth side of the rectangle: ");
 		scanf_s("%d", &rectangleSides[3]);
 
+		/* Setting in coordinates for each point for the rectangle function
+		printf("\nPlease note that the order will be like so." 
+		"\nPoint 1 will be the point that is the closest to the origin."
+		"\nPoint 2 will be the point that will be vertically above point 1."
+		"\nPoint 3 will be the point that will be to the right of point 2."
+		"\nPoint 4 will be the point that will be vertically below point 3."
+		);
+		printf("\nFor the coordinates please enter values equal to or larger than 0. ");
+		
+		//Collecting points for the rectangle through a for loop 
+		for (int i = 0; i < 8; i++)
+		{
+			//The count variable is purely asthetic so that the user knows what point they're 
+			//putting coordinates in for
+			count = (2 + i) / 2;
+			printf("\nPlease enter in the x coordinate for point %i:", count);
+			scanf_s("%d", &rectangleSides[i]);
+
+			//Input validation through a while loop for the x-coordinate
+			while (rectangleSides[i] < 0)
+			{
+				printf("\nThat is an invalid input. Please enter another input for the x coordinate:");
+				scanf_s("%d", &rectangleSides[i]);
+			}
+
+
+			printf("\nPlease enter in the y coordinate for point %i:", count);
+			scanf_s("%d", &rectangleSides[i + 1]);
+
+			//Input validation through a while loop for the y-coordinate
+			while (rectangleSides[i + 1] < 0)
+			{
+				printf("\nThat is an invalid input. Please enter another input for the y coordinate:");
+				scanf_s("%d", &rectangleSides[i + 1]);
+			}
+			i = i + 1;
+		}
+		
+		*/
+
+
+		//The code below will not be usable 
+		 
+		
 		// Executes the values typed to check if the rectangle lines intersect
-		RectangleChecker(rectangleSides[0], rectangleSides[1], rectangleSides[2], rectangleSides[3]);
+		//RectangleChecker(rectangleSides[0], rectangleSides[1], rectangleSides[2], rectangleSides[3]);
 
 		break;
 
@@ -101,11 +146,21 @@ void TriangleChecker(int side1, int side2, int side3)
 	PrintFunctions();
 }
 
-void RectangleChecker(int side1, int side2, int side3, int side4)
-{
+
+
+void RectangleChecker(int* rectangleSides[8]) {
+	
+	
+	
+	
 
 	PrintFunctions();
+
+
+
+
 }
+
 
 void triangleAngle(int side1, int side2, int side3)
 {
