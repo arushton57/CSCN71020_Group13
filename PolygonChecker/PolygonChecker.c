@@ -55,8 +55,9 @@ void PrintFunctions()
 
 	case 'b':
 		printf("\nRectangle selected.\n");
-
-		int rectangleSides[4] = { 0, 0, 0, 0 };
+		
+		int count;
+		/*int rectangleSides[4] = { 0, 0, 0, 0 };
 		printf("Enter the first side of the rectangle: ");
 		scanf_s("%d", &rectangleSides[0]);
 		printf("Enter the second side of the rectangle: ");
@@ -64,9 +65,9 @@ void PrintFunctions()
 		printf("Enter the third side of the rectangle: ");
 		scanf_s("%d", &rectangleSides[2]);
 		printf("Enter the fourth side of the rectangle: ");
-		scanf_s("%d", &rectangleSides[3]);
+		scanf_s("%d", &rectangleSides[3]);*/
 
-		/* Setting in coordinates for each point for the rectangle function
+		// Setting in coordinates for each point for the rectangle function
 		printf("\nPlease note that the order will be like so." 
 		"\nPoint 1 will be the point that is the closest to the origin."
 		"\nPoint 2 will be the point that will be vertically above point 1."
@@ -78,8 +79,8 @@ void PrintFunctions()
 		//Collecting points for the rectangle through a for loop 
 		for (int i = 0; i < 8; i++)
 		{
-			//The count variable is purely asthetic so that the user knows what point they're 
-			//putting coordinates in for
+			/*The count variable is purely asthetic so that the user knows what point they're 
+			putting coordinates in for*/
 			count = (2 + i) / 2;
 			printf("\nPlease enter in the x coordinate for point %i:", count);
 			scanf_s("%d", &rectangleSides[i]);
@@ -104,7 +105,7 @@ void PrintFunctions()
 			i = i + 1;
 		}
 		
-		*/
+		
 
 
 		//The code below will not be usable 
@@ -149,16 +150,72 @@ void TriangleChecker(int side1, int side2, int side3)
 
 
 void RectangleChecker(int* rectangleSides[8]) {
+	/*
+	Still need to work on the figuring out how to check the angles of the rectangle. A bit confused on that part. Everything else is falling in place however
+	*/
+
+
+
+	// This will be used to hold the lengths of each of the sides of the shape
+	double sideLengthHolders[4];
+	double total;
+	double diagonal;
+	double angle;
+
+	//Length from p1 ===> p2
+	sideLengthHolders[0] = (double) sqrt ( (pow ( (rectangleSides[2] - rectangleSides[0]) ,2 ) ) + (pow((rectangleSides[3] - rectangleSides[1]), 2)));
+	//Length from p2 ===> p3
+	sideLengthHolders[1] = (double)sqrt((pow((rectangleSides[4] - rectangleSides[2]), 2)) + (pow((rectangleSides[5] - rectangleSides[3]), 2)));
+	//Length from p3 ===> p4
+	sideLengthHolders[2] = (double)sqrt((pow((rectangleSides[6] - rectangleSides[4]), 2)) + (pow((rectangleSides[7] - rectangleSides[5]), 2)));
+	//Length from p4 ===> p1
+	sideLengthHolders[3] = (double)sqrt((pow((rectangleSides[0] - rectangleSides[6]), 2)) + (pow((rectangleSides[1] - rectangleSides[7]), 2)));
+
+	//simple for loop to add together the lengths
+	for (int i = 0; i < 4; i++)
+	{
+		total = total + sideLengthHolders[i];
+	}
+
+	printf("\nThe total perimeter of this shape is %f", total);
+
+
+	// This is to check if the opposide sides of the shape are the same length.
+
+	if (sideLengthHolders[0] == sideLengthHolders[2] && sideLengthHolders[1] == sideLengthHolders[3])
+	{
+
+		// This is the diagonal line that connects the points at p1 and p3
+		diagonal = sqrt(pow(sideLengthHolders[0], 2) + pow(sideLengthHolders[1], 2));
+		//finding out if the angle that corresponds with the largest side is a right angle or not
+		angle = (pow(diagonal, 2) - pow(sideLengthHolders[0], 2) - pow(sideLengthHolders[1], 2)) / (2 * sideLengthHolders[0] * sideLengthHolders[1]);
+		total = total + angle;
+
+		diagonal = sqrt(pow(sideLengthHolders[1], 2) + pow(sideLengthHolders[2], 2));
+		angle = (pow(diagonal, 2) - pow(sideLengthHolders[1], 2) - pow(sideLengthHolders[2], 2)) / (2 * sideLengthHolders[1] * sideLengthHolders[2]);
+		total = total + angle;
+
+		diagonal = sqrt(pow(sideLengthHolders[2], 2) + pow(sideLengthHolders[3], 2));
+		angle = (pow(diagonal, 2) - pow(sideLengthHolders[2], 2) - pow(sideLengthHolders[3], 2)) / (2 * sideLengthHolders[2] * sideLengthHolders[3]);
+		total = total + angle;
+
+		diagonal = sqrt(pow(sideLengthHolders[3], 2) + pow(sideLengthHolders[0], 2));
+		angle = (pow(diagonal, 2) - pow(sideLengthHolders[0], 2) - pow(sideLengthHolders[3], 2)) / (2 * sideLengthHolders[0] * sideLengthHolders[3]);
+		total = total + angle;
+
+		// this is a place holder for calculating the area of the rectangle later
+		if (total == 0) {
+
+			total = sideLengthHolders[0] * sideLengthHolders[1];
+			printf("\nThe area of this rectangle is %.2f.");
+		}
+	}
 	
-	
-	
-	
+	else
+		printf("\nThis is not a rectangle.");
+
 
 	PrintFunctions();
-
-
-
-
 }
 
 
