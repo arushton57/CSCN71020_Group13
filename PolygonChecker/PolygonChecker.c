@@ -77,10 +77,10 @@ void PrintFunctions()
 }
 
 // Takes in 3 integers to check what kind of triangle it creates
-void TriangleChecker(int side1, int side2, int side3)
+char* TriangleChecker(int side1, int side2, int side3)
 {
 	// Prepares a result
-	char* result = "";
+	char* result;
 	// If the integer could not recieve the input value, or if any input value is equal to 0, clear the buffer. We don't want these variables to output prematurely
 	if (side1 <= 0 || side2 <= 0 || side3 <= 0) {
 		while (getchar() != '\n');
@@ -89,7 +89,7 @@ void TriangleChecker(int side1, int side2, int side3)
 	else if (side1 == side2 && side1 == side3) {
 		result = "equilateral triangle";
 	}
-	else if ((side1 == side2 && side1 != side3) || (side1 == side3 && side1 != side2)) {
+	else if ((side1 == side2 && side1 != side3) || (side1 == side3 && side1 != side2) || (side2 == side3 && side1 != side2)) {
 		result = "isosceles triangle";
 	}
 	else {
@@ -107,6 +107,7 @@ void TriangleChecker(int side1, int side2, int side3)
 	}
 
 	printf("\n\n");
+	return result; // For testing
 }
 
 void TriangleAngle(int side1, int side2, int side3)
