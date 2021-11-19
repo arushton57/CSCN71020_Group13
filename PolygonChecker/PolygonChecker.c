@@ -191,14 +191,17 @@ void RectangleChecker(int* rectangleSides[8]) {
 		angle = (pow(diagonal, 2) - pow(sideLengthHolders[0], 2) - pow(sideLengthHolders[1], 2)) / (2 * sideLengthHolders[0] * sideLengthHolders[1]);
 		total = total + angle;
 
+		// This is the diagonal line that connects the points at p2 and p4
 		diagonal = sqrt(pow(sideLengthHolders[1], 2) + pow(sideLengthHolders[2], 2));
 		angle = (pow(diagonal, 2) - pow(sideLengthHolders[1], 2) - pow(sideLengthHolders[2], 2)) / (2 * sideLengthHolders[1] * sideLengthHolders[2]);
 		total = total + angle;
 
+		// This is the diagonal line that connects the points at p3 and p1
 		diagonal = sqrt(pow(sideLengthHolders[2], 2) + pow(sideLengthHolders[3], 2));
 		angle = (pow(diagonal, 2) - pow(sideLengthHolders[2], 2) - pow(sideLengthHolders[3], 2)) / (2 * sideLengthHolders[2] * sideLengthHolders[3]);
 		total = total + angle;
 
+		// This is the diagonal line that connects the points at p4 and p2
 		diagonal = sqrt(pow(sideLengthHolders[3], 2) + pow(sideLengthHolders[0], 2));
 		angle = (pow(diagonal, 2) - pow(sideLengthHolders[0], 2) - pow(sideLengthHolders[3], 2)) / (2 * sideLengthHolders[0] * sideLengthHolders[3]);
 		total = total + angle;
