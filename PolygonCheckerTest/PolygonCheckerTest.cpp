@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
+#define TOTALDEGREES 180
 extern "C" char* TriangleChecker(int side1, int side2, int side3);
-
+extern "C" char* TriangleAngle(int side1, int side2, int side3);
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace TriangleCheckerTest
@@ -71,5 +72,34 @@ namespace TriangleCheckerTest
 			char* result = TriangleChecker(6, 4, 2);
 			Assert::AreEqual(intendedResult, result);
 		}
+
 	};
+
+	TEST_CLASS(Angleformulatest)
+	{
+	public:
+
+
+		TEST_METHOD(TestCorrectAngles)
+		{
+			int intendedResult = TOTALDEGREES;
+			int result = TriangleAngle(1, 2, 3);
+			Assert::AreEqual(intendedResult, result);
+		}
+
+		TEST_METHOD(TestTrianglewithZero)
+		{
+			char* intendedResult = "NotTriangle";
+			char* result = TriangleAngle(1, 2, 0);
+			Assert::AreEqual(intendedResult, result);
+		}
+
+		TEST_METHOD(TestIncorrectAngles)
+		{
+			int intendedResult = TOTALDEGREES;
+			int result = TriangleAngle(4, 2, 2);
+			Assert::AreNotEqual(intendedResult, result);
+		}
+
+	}
 }
