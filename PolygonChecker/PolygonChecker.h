@@ -7,5 +7,8 @@
 #define TOTALDEGREES 180
 
 void PrintFunctions();
-void TriangleChecker(int side1, int side2, int side3);
+
+char* TriangleChecker(int side1, int side2, int side3);
+void TriangleAngle(int side1, int side2, int side3);
+
 void RectangleChecker(int side1, int side2, int side3, int side4);
