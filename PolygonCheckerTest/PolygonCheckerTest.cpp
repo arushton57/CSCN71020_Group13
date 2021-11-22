@@ -4,7 +4,8 @@
 #define TOTALDEGREES 180
 
 extern "C" char* TriangleChecker(int side1, int side2, int side3);
-extern "C" char* TriangleAngle(int side1, int side2, int side3);
+extern "C" int TriangleAngle(int side1, int side2, int side3);
+
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -80,29 +81,71 @@ namespace PolygonCheckerEnvironment
 	{
 	public:
 
-		/*
-		TEST_METHOD(TestCorrectAngles)
-		{
-			int intendedResult = TOTALDEGREES;
-			int result = TriangleAngle(1, 2, 3);
-			Assert::AreEqual(intendedResult, result);
-		}
-		*/
 
-		TEST_METHOD(TestTrianglewithZero)
+		
+		TEST_METHOD(TestIncorrectAngle)
 		{
-			char* intendedResult = "NotTriangle";
-			char* result = TriangleAngle(1, 2, 0);
-			Assert::AreEqual(intendedResult, result);
+			//Arrange
+			int angle1 = 45;
+			int angle2 = 45;
+			int angle3 = 90;
+			int actual = TriangleAngle(3,1,sqrt(2));
+
+			//Act
+			
+
+			//Assert
+			Assert::AreNotEqual(angle1, actual);
+		}
+		
+
+		TEST_METHOD(TestTriangleAngle1)
+		{
+			//Arrange
+			int angle1 = 45;
+			int angle2 = 45;
+			int angle3 = 90;
+			int actual = TriangleAngle(1,1,sqrt(2));
+
+			//Assert
+			Assert::AreEqual(angle1, actual);
 		}
 
-		/*
-		TEST_METHOD(TestIncorrectAngles)
+		TEST_METHOD(TestTriangleAngle2)
 		{
-			int intendedResult = TOTALDEGREES;
-			int result = TriangleAngle(4, 2, 2);
-			Assert::AreNotEqual(intendedResult, result);
+			//Arrange
+			int angle1 = 30;
+			int angle2 = 60;
+			int angle3 = 90;
+			int actual = TriangleAngle(sqrt(3), 1, 2);
+
+			//Assert
+			Assert::AreEqual(angle2, actual);
 		}
-		*/
+
+		TEST_METHOD(TestIncorrectAngle2)
+		{
+			//Arrange
+			int angle1 = 70;
+			int angle2 = 45;
+			int angle3 = 90;
+			int actual = TriangleAngle(4, 6, 12);
+
+			//Assert
+			Assert::AreNotEqual(angle1, actual);
+		}
+
+		TEST_METHOD(TestEquilateralTriangle)
+		{
+			//Arrange
+			int angle1 = 60;
+			int angle2 = 60;
+			int angle3 = 60;
+			int actual = TriangleAngle(3, 3, 3);
+
+			//Assert
+			Assert::AreEqual(angle1, actual);
+		}
+
 	};
 }
