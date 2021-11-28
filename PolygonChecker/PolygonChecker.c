@@ -1,6 +1,8 @@
+#include <stdbool.h>
 #include "PolygonChecker.h"
 #define RADIAN_DEGREES 57.2958
 #define TOTALDEGREES 180
+#define M_PI 3.14159265358979323846
 int rectangleSides[8];
 
 void main()
@@ -119,7 +121,7 @@ void PrintFunctions()
 			printf("\nQuit selected. Exiting program...\n");
 		}
 	}
-}
+
 
 // Takes in 3 integers to check what kind of triangle it creates
 char* TriangleChecker(int side1, int side2, int side3)
@@ -147,7 +149,6 @@ char* TriangleChecker(int side1, int side2, int side3)
 }
 
 
-
 void RectangleChecker(int* rectangleSides[8]) {
 	/*
 	Still need to work on the figuring out how to check the angles of the rectangle. A bit confused on that part. Everything else is falling in place however
@@ -158,8 +159,10 @@ void RectangleChecker(int* rectangleSides[8]) {
 	// This will be used to hold the lengths of each of the sides of the shape
 	double sideLengthHolders[4];
 	double total;
-	double diagonal;
+	double dia0;
+	double dia1;
 	double angle;
+	bool forward = true;
 
 	//Length from p1 ===> p2
 	sideLengthHolders[0] = (double) sqrt ( (pow ( (rectangleSides[2] - rectangleSides[0]) ,2 ) ) + (pow((rectangleSides[3] - rectangleSides[1]), 2)));
@@ -175,46 +178,69 @@ void RectangleChecker(int* rectangleSides[8]) {
 	{
 		total = total + sideLengthHolders[i];
 	}
-
 	printf("\nThe total perimeter of this shape is %f", total);
 
 
 	// This is to check if the opposide sides of the shape are the same length.
+	// Also first part of the rectangle validation process
 
 	if (sideLengthHolders[0] == sideLengthHolders[2] && sideLengthHolders[1] == sideLengthHolders[3])
 	{
+	}
 
-		// This is the diagonal line that connects the points at p1 and p3
-		diagonal = sqrt(pow(sideLengthHolders[0], 2) + pow(sideLengthHolders[1], 2));
-		//finding out if the angle that corresponds with the largest side is a right angle or not
-		angle = (pow(diagonal, 2) - pow(sideLengthHolders[0], 2) - pow(sideLengthHolders[1], 2)) / (2 * sideLengthHolders[0] * sideLengthHolders[1]);
-		total = total + angle;
+	else {
+		printf("\nOpposite sides are not equal.");
+		printf("\nThis is not a rectangle.");
+		forward = false;
+	}
 
-		// This is the diagonal line that connects the points at p2 and p4
-		diagonal = sqrt(pow(sideLengthHolders[1], 2) + pow(sideLengthHolders[2], 2));
-		angle = (pow(diagonal, 2) - pow(sideLengthHolders[1], 2) - pow(sideLengthHolders[2], 2)) / (2 * sideLengthHolders[1] * sideLengthHolders[2]);
-		total = total + angle;
 
-		// This is the diagonal line that connects the points at p3 and p1
-		diagonal = sqrt(pow(sideLengthHolders[2], 2) + pow(sideLengthHolders[3], 2));
-		angle = (pow(diagonal, 2) - pow(sideLengthHolders[2], 2) - pow(sideLengthHolders[3], 2)) / (2 * sideLengthHolders[2] * sideLengthHolders[3]);
-		total = total + angle;
+	//This is for checking if the x and y coordinates match in making a rectangle.
+	if (forward)
+	{
 
-		// This is the diagonal line that connects the points at p4 and p2
-		diagonal = sqrt(pow(sideLengthHolders[3], 2) + pow(sideLengthHolders[0], 2));
-		angle = (pow(diagonal, 2) - pow(sideLengthHolders[0], 2) - pow(sideLengthHolders[3], 2)) / (2 * sideLengthHolders[0] * sideLengthHolders[3]);
-		total = total + angle;
-
-		// this is a place holder for calculating the area of the rectangle later
-		if (total == 0) {
-
+		if (rectangleSides[0] == rectangleSides [2] && rectangleSides [1] == rectangleSides [7] && rectangleSides[3] == rectangleSides [5] && rectangleSides [4] == rectangleSides [6])
+		{
+			printf("\nThis is a rectangle. Calcuating Area now. ");
 			total = sideLengthHolders[0] * sideLengthHolders[1];
-			printf("\nThe area of this rectangle is %.2f.");
+			printf("\nThe area of this rectangle is %.2f.", total);
+		}
+
+		//Failing the above test means that this rectangle could possible be on an angle.
+		else
+		{
+			printf("\nCertain coordinates are not matching. Running though one last test. ");
+			
+			
+			//Creates a diagonal line from point 1 to point 3 and finds the length of the line
+			dia0 = (double) sqrt ( (pow (rectangleSides [4] - rectangleSides [0],2)) + (pow ( rectangleSides [5] - rectangleSides [1], 2 )) );
+
+			//Creates a diagonal line from point 2 to point 4 and finds the length of the line
+			dia1 = (double) sqrt ( (pow (rectangleSides [6] - rectangleSides[2], 2)) + (pow ( rectangleSides [7] - rectangleSides [3], 2 )) );
+
+
+			if (dia0 == dia1)
+			{
+				printf("\nThis is a rectangle. Calcuating Area now. ");
+				total = sideLengthHolders[0] * sideLengthHolders[1];
+				printf("\nThe area of this rectangle is %.2f.", total);
+			}
+
+			else {
+				printf("\nOpposite sides are not equal.");
+				printf("\nThis is not a rectangle.");
+				forward = false;
+			}
+
+
 		}
 	}
+
+
+
 	
-	else
-		printf("\nThis is not a rectangle.");
+
+	
 
 
 	PrintFunctions();
@@ -235,7 +261,3 @@ void triangleAngle(int side1, int side2, int side3)
 	printf("%f, %f, and %f", angle1, angle2, angle3);
 }
 
-void RectangleChecker(int side1, int side2, int side3, int side4)
-{
-	printf("Output here\n\n");
-}

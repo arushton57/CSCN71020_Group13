@@ -101,5 +101,13 @@ namespace TriangleCheckerTest
 			Assert::AreNotEqual(intendedResult, result);
 		}
 
-	}
-}
+	};
+
+
+	TEST_CLASS(RectangleChecker) {
+	public:
+
+
+	};
+
+
