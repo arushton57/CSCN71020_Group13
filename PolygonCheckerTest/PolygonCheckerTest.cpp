@@ -2,11 +2,14 @@
 #include "CppUnitTest.h"
 
 #define TOTALDEGREES 180
+
 extern "C" char* TriangleChecker(int side1, int side2, int side3);
-extern "C" char* TriangleAngle(int side1, int side2, int side3);
+extern "C" int TriangleAngle(int side1, int side2, int side3);
+
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace TriangleCheckerTest
+namespace PolygonCheckerEnvironment
 {
 	TEST_CLASS(TriangleCheckerTest)
 	{
@@ -34,45 +37,44 @@ namespace TriangleCheckerTest
 			Assert::AreEqual(intendedResult, result);
 		}
 
-		TEST_METHOD(TestEquilateralTriangle_1)
+		TEST_METHOD(TestEquilateral_1)
 		{
 			char* intendedResult = "equilateral triangle";
 			char* result = TriangleChecker(7, 7, 7);
 			Assert::AreEqual(intendedResult, result);
 		}
 
-		TEST_METHOD(TestIsoscelesTriangle_1)
+		TEST_METHOD(TestIsosceles_1)
 		{
 			char* intendedResult = "isosceles triangle";
 			char* result = TriangleChecker(8, 8, 3);
 			Assert::AreEqual(intendedResult, result);
 		}
-		TEST_METHOD(TestIsoscelesTriangle_2)
+		TEST_METHOD(TestIsosceles_2)
 		{
 			char* intendedResult = "isosceles triangle";
 			char* result = TriangleChecker(1, 5, 5);
 			Assert::AreEqual(intendedResult, result);
 		}
-		TEST_METHOD(TestIsoscelesTriangle_3)
+		TEST_METHOD(TestIsosceles_3)
 		{
 			char* intendedResult = "isosceles triangle";
 			char* result = TriangleChecker(66, 2, 66);
 			Assert::AreEqual(intendedResult, result);
 		}
 
-		TEST_METHOD(TestScaleneTriangle_1)
+		TEST_METHOD(TestScalene_1)
 		{
 			char* intendedResult = "scalene triangle";
 			char* result = TriangleChecker(1, 2, 3);
 			Assert::AreEqual(intendedResult, result);
 		}
-		TEST_METHOD(TestScaleneTriangle_2)
+		TEST_METHOD(TestScalene_2)
 		{
 			char* intendedResult = "scalene triangle";
 			char* result = TriangleChecker(6, 4, 2);
 			Assert::AreEqual(intendedResult, result);
 		}
-
 	};
 
 	TEST_CLASS(Angleformulatest)
@@ -80,34 +82,70 @@ namespace TriangleCheckerTest
 	public:
 
 
-		TEST_METHOD(TestCorrectAngles)
+		
+		TEST_METHOD(TestIncorrectAngle)
 		{
-			int intendedResult = TOTALDEGREES;
-			int result = TriangleAngle(1, 2, 3);
-			Assert::AreEqual(intendedResult, result);
+			//Arrange
+			int angle1 = 45;
+			int angle2 = 45;
+			int angle3 = 90;
+			int actual = TriangleAngle(3,1,sqrt(2));
+
+			//Act
+			
+
+			//Assert
+			Assert::AreNotEqual(angle1, actual);
+		}
+		
+
+		TEST_METHOD(TestTriangleAngle1)
+		{
+			//Arrange
+			int angle1 = 45;
+			int angle2 = 45;
+			int angle3 = 90;
+			int actual = TriangleAngle(1,1,sqrt(2));
+
+			//Assert
+			Assert::AreEqual(angle1, actual);
 		}
 
-		TEST_METHOD(TestTrianglewithZero)
+		TEST_METHOD(TestTriangleAngle2)
 		{
-			char* intendedResult = "NotTriangle";
-			char* result = TriangleAngle(1, 2, 0);
-			Assert::AreEqual(intendedResult, result);
+			//Arrange
+			int angle1 = 30;
+			int angle2 = 60;
+			int angle3 = 90;
+			int actual = TriangleAngle(sqrt(3), 1, 2);
+
+			//Assert
+			Assert::AreEqual(angle2, actual);
 		}
 
-		TEST_METHOD(TestIncorrectAngles)
+		TEST_METHOD(TestIncorrectAngle2)
 		{
-			int intendedResult = TOTALDEGREES;
-			int result = TriangleAngle(4, 2, 2);
-			Assert::AreNotEqual(intendedResult, result);
+			//Arrange
+			int angle1 = 70;
+			int angle2 = 45;
+			int angle3 = 90;
+			int actual = TriangleAngle(4, 6, 12);
+
+			//Assert
+			Assert::AreNotEqual(angle1, actual);
+		}
+
+		TEST_METHOD(TestEquilateralTriangle)
+		{
+			//Arrange
+			int angle1 = 60;
+			int angle2 = 60;
+			int angle3 = 60;
+			int actual = TriangleAngle(3, 3, 3);
+
+			//Assert
+			Assert::AreEqual(angle1, actual);
 		}
 
 	};
-
-
-	TEST_CLASS(RectangleChecker) {
-	public:
-
-
-	};
-
-
+}
