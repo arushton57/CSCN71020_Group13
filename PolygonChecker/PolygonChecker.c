@@ -1,11 +1,4 @@
-#include <stdbool.h>
 #include "PolygonChecker.h"
-#include <math.h>
-#define RADIAN_DEGREES 57.2958
-#define TOTALDEGREES 180
-#define M_PI 3.14159265358979323846
-
-int rectangleSides[8];
 
 void main()
 {
@@ -16,10 +9,11 @@ void main()
 	PrintFunctions();
 }
 
-bool stopMenu = false;
 
 void PrintFunctions()
 {
+	bool stopMenu = false;
+
 	while (!stopMenu)
 	{
 		printf("To choose a function, enter its letter label:\na) Check triangle\nb) Check rectangle\nc) Quit\n");
@@ -65,15 +59,7 @@ void PrintFunctions()
 			printf("\nRectangle selected.\n");
 
 			int count;
-			/*int rectangleSides[4] = { 0, 0, 0, 0 };
-			printf("Enter the first side of the rectangle: ");
-			scanf_s("%d", &rectangleSides[0]);
-			printf("Enter the second side of the rectangle: ");
-			scanf_s("%d", &rectangleSides[1]);
-			printf("Enter the third side of the rectangle: ");
-			scanf_s("%d", &rectangleSides[2]);
-			printf("Enter the fourth side of the rectangle: ");
-			scanf_s("%d", &rectangleSides[3]);*/
+			int rectangleSides[8];
 
 			// Setting in coordinates for each point for the rectangle function
 			printf("\nPlease note that the order will be like so."
@@ -114,7 +100,7 @@ void PrintFunctions()
 			}
 
 			// Executes the values typed to check if the rectangle lines intersect
-			RectangleChecker();
+			RectangleChecker(rectangleSides);
 			break;
 
 		case 'c':
@@ -154,19 +140,7 @@ char* TriangleChecker(int side1, int side2, int side3)
 	return result;
 }
 
-//MISSING CODE HERE
-
-//	// Angle formula using radians. Angle returned in radians due to acos. 1 radian is default to: 57.2958
-//	angle1 = RADIAN_DEGREES * acos((double)((side2 * side2) + (side3 * side3) - (side1 * side1)) / (2.0 * side2 * side3));
-//	angle2 = RADIAN_DEGREES * acos((double)((side3 * side3) + (side1 * side1) - (side2 * side2)) / (2.0 * side1 * side3));
-//
-//	// 3rd angle found using total degrees
-//	angle3 = TOTALDEGREES - (angle1 + angle2);
-//
-//	printf("%f, %f, and %f", angle1, angle2, angle3);
-//}
-
-bool RectangleChecker()
+bool RectangleChecker(int rectangleSides[])
 {
 	// This will be used to hold the lengths of each of the sides of the shape
 	double sideLengthHolders[4];
@@ -234,12 +208,12 @@ bool RectangleChecker()
 			{
 				printf("\nThis is a rectangle. Calcuating Area now. ");
 				total = sideLengthHolders[0] * sideLengthHolders[1];
-				printf("\nThe area of this rectangle is %.2f.", total);
+				printf("\nThe area of this rectangle is %.2f.\n\n", total);
 			}
 
 			else {
-				printf("\nOpposite sides are not equal.");
-				printf("\nThis is not a rectangle.");
+				printf("\nOpposite sides are not equal.\n\n");
+				printf("\nThis is not a rectangle.\n\n");
 				forward = false;
 			}
 
@@ -269,4 +243,3 @@ void TriangleAngle(int side1, int side2, int side3)
 
 	printf("%f, %f, and %f", angle1, angle2, angle3);
 }
-
