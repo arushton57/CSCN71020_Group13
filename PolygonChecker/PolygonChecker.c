@@ -1,7 +1,10 @@
 #include <stdbool.h>
 #include "PolygonChecker.h"
+#include <math.h>
 #define RADIAN_DEGREES 57.2958
 #define TOTALDEGREES 180
+#define M_PI 3.14159265358979323846
+
 int rectangleSides[8];
 
 void main()
@@ -16,7 +19,7 @@ void main()
 bool stopMenu = false;
 
 void PrintFunctions()
-{  
+{
 	while (!stopMenu)
 	{
 		printf("To choose a function, enter its letter label:\na) Check triangle\nb) Check rectangle\nc) Quit\n");
@@ -60,7 +63,6 @@ void PrintFunctions()
 
 		case 'b':
 			printf("\nRectangle selected.\n");
-			int rectangleSides[8];
 
 			int count;
 			/*int rectangleSides[4] = { 0, 0, 0, 0 };
@@ -112,7 +114,7 @@ void PrintFunctions()
 			}
 
 			// Executes the values typed to check if the rectangle lines intersect
-			RectangleChecker(rectangleSides[0], rectangleSides[1], rectangleSides[2], rectangleSides[3]);
+			RectangleChecker();
 			break;
 
 		case 'c':
@@ -121,7 +123,7 @@ void PrintFunctions()
 			printf("\nQuit selected. Exiting program...\n");
 		}
 	}
-
+}
 
 // Takes in 3 integers to check what kind of triangle it creates
 char* TriangleChecker(int side1, int side2, int side3)
@@ -152,23 +154,25 @@ char* TriangleChecker(int side1, int side2, int side3)
 	return result;
 }
 
+//MISSING CODE HERE
 
-	// Angle formula using radians. Angle returned in radians due to acos. 1 radian is default to: 57.2958
-	angle1 = RADIAN_DEGREES * acos((double)((side2 * side2) + (side3 * side3) - (side1 * side1)) / (2.0 * side2 * side3));
-	angle2 = RADIAN_DEGREES * acos((double)((side3 * side3) + (side1 * side1) - (side2 * side2)) / (2.0 * side1 * side3));
+//	// Angle formula using radians. Angle returned in radians due to acos. 1 radian is default to: 57.2958
+//	angle1 = RADIAN_DEGREES * acos((double)((side2 * side2) + (side3 * side3) - (side1 * side1)) / (2.0 * side2 * side3));
+//	angle2 = RADIAN_DEGREES * acos((double)((side3 * side3) + (side1 * side1) - (side2 * side2)) / (2.0 * side1 * side3));
+//
+//	// 3rd angle found using total degrees
+//	angle3 = TOTALDEGREES - (angle1 + angle2);
+//
+//	printf("%f, %f, and %f", angle1, angle2, angle3);
+//}
 
-	// 3rd angle found using total degrees
-	angle3 = TOTALDEGREES - (angle1 + angle2);
-
-	printf("%f, %f, and %f", angle1, angle2, angle3);
-}
-
-void RectangleChecker(int* rectangleSides[8])
+bool RectangleChecker()
 {
 	// This will be used to hold the lengths of each of the sides of the shape
 	double sideLengthHolders[4];
-	double total;
-	double diagonal;
+	double total = 0;
+	double diagonalLine0;
+	double diagonalLine1;
 	double angle;
 	bool forward = true;
 
@@ -220,13 +224,13 @@ void RectangleChecker(int* rectangleSides[8])
 			
 			
 			//Creates a diagonal line from point 1 to point 3 and finds the length of the line
-			dia0 = (double) sqrt ( (pow (rectangleSides [4] - rectangleSides [0],2)) + (pow ( rectangleSides [5] - rectangleSides [1], 2 )) );
+			diagonalLine0 = (double) sqrt ( (pow (rectangleSides [4] - rectangleSides [0],2)) + (pow ( rectangleSides [5] - rectangleSides [1], 2 )) );
 
 			//Creates a diagonal line from point 2 to point 4 and finds the length of the line
-			dia1 = (double) sqrt ( (pow (rectangleSides [6] - rectangleSides[2], 2)) + (pow ( rectangleSides [7] - rectangleSides [3], 2 )) );
+			diagonalLine1 = (double) sqrt ( (pow (rectangleSides [6] - rectangleSides[2], 2)) + (pow ( rectangleSides [7] - rectangleSides [3], 2 )) );
 
 
-			if (dia0 == dia1)
+			if (diagonalLine0 == diagonalLine1)
 			{
 				printf("\nThis is a rectangle. Calcuating Area now. ");
 				total = sideLengthHolders[0] * sideLengthHolders[1];
@@ -243,15 +247,16 @@ void RectangleChecker(int* rectangleSides[8])
 		}
 	}
 	
-	else
+	else {
 		printf("\nThis is not a rectangle.");
-
-
+		forward = false;
+	}
+	return forward;
 	PrintFunctions();
 }
 
 
-void triangleAngle(int side1, int side2, int side3)
+void TriangleAngle(int side1, int side2, int side3)
 {
 	double angle1, angle2, angle3;
 
@@ -265,7 +270,3 @@ void triangleAngle(int side1, int side2, int side3)
 	printf("%f, %f, and %f", angle1, angle2, angle3);
 }
 
-void RectangleChecker(int side1, int side2, int side3, int side4)
-{
-	printf("Output here\n\n");
-}

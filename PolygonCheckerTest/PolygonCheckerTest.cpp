@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include "../PolygonChecker/PolygonChecker.c"
 
 #define TOTALDEGREES 180
 
 extern "C" char* TriangleChecker(int side1, int side2, int side3);
 extern "C" int TriangleAngle(int side1, int side2, int side3);
-
+extern "C" bool RectangleChecker(int *rectangleSides[8]);
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -146,6 +147,61 @@ namespace PolygonCheckerEnvironment
 			//Assert
 			Assert::AreEqual(angle1, actual);
 		}
+
+	};
+
+
+	TEST_CLASS(RectangleChecker) {
+		public
+
+			//Will be using proper coordinates to create a regular rectangle. Should past the first test in the function
+			TEST_METHOD(TestProperRectangle)
+		{
+			bool result;
+			rectangleSides[8] = { 0,0,0,4,6,4,6,0 };
+			
+			result = RectangleChecker(rectangleSides[8]);
+
+
+			Assert::AreEqual(true,result);
+		}
+
+		//Will be testing the third test method in the function where it checks for the length of the diagonal lines
+		TEST_METHOD(TestParallelogram)
+		{
+			bool result;
+			rectangleSides[8] = { 0,0,7,5,16,5,9,0 };
+
+			result = RectangleChecker(rectangleSides[8]);
+
+
+			Assert::AreEqual(false, result);
+		}
+
+		//This test should fail. Should fail at the first test in the function
+		TEST_METHOD(TestRandomCoordinates)
+		{
+			bool result;
+			rectangleSides[8] = { 1,3,7,8,8,9,3,1 };
+
+			result = RectangleChecker(rectangleSides[8]);
+
+
+			Assert::AreEqual(false, result);
+		}
+
+		//Will be going through all test and should succeed. 
+		TEST_METHOD(TestSlantedRectangle)
+		{
+			bool result;
+			rectangleSides[8] = { -6,3,0,6,2,2,-4,1 };
+
+			result = RectangleChecker(rectangleSides[8]);
+
+
+			Assert::AreEqual(true, result);
+		}
+
 
 	};
 }
